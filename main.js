@@ -5,7 +5,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 const scene = new THREE.Scene()
 scene.background = new THREE.Color(0xf2f2f2)
 
-// Licht
+// Licht (niet overbelicht)
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.2)
 scene.add(ambientLight)
 
@@ -54,7 +54,7 @@ const models = [
   },
   {
     name: 'Test model',
-    description: 'Voeg hier later extra modellen toe',
+    description: 'Voeg later extra modellen toe',
     url: 'https://wjjhhgtdsvorimnucbjq.supabase.co/storage/v1/object/public/models/ottomaanse%20fontein%201.glb'
   }
 ]
@@ -64,6 +64,7 @@ const defaultModel = models[0]
 let currentModel = null
 let currentModelUrl = defaultModel.url
 
+// Camera correct zetten
 function fitCameraToObject(object) {
   const box = new THREE.Box3().setFromObject(object)
   const center = box.getCenter(new THREE.Vector3())
@@ -89,6 +90,7 @@ function fitCameraToObject(object) {
   controls.update()
 }
 
+// Material fix (tegen overbelichting)
 function fixMaterials(root) {
   root.traverse((child) => {
     if (!child.isMesh) return
@@ -113,6 +115,7 @@ function fixMaterials(root) {
   })
 }
 
+// Model laden
 function loadModel(url, name = 'Model', description = '3D model geladen') {
   loader.load(
     url,
@@ -126,7 +129,7 @@ function loadModel(url, name = 'Model', description = '3D model geladen') {
 
       fixMaterials(currentModel)
 
-      // Juiste rotatie
+      // JUISTE ROTATIE
       currentModel.rotation.x = Math.PI
       currentModel.rotation.y = -Math.PI - Math.PI / 4
       currentModel.rotation.z = 0
@@ -145,41 +148,39 @@ function loadModel(url, name = 'Model', description = '3D model geladen') {
   )
 }
 
-// Startmodel laden
+// Startmodel
 loadModel(defaultModel.url, defaultModel.name, defaultModel.description)
 
-// Knop voor manuele link
+// Handmatig laden
 button.addEventListener('click', () => {
   const url = input.value.trim()
   if (!url) return
-  loadModel(url, 'Eigen GLB link', 'Handmatig geladen model')
+  loadModel(url, 'Eigen model', 'Handmatig geladen')
 })
 
-// Startknop
+// Scroll knop
 if (startBtn) {
   startBtn.addEventListener('click', () => {
     document.getElementById('app').scrollIntoView({
-      behavior: 'smooth',
-      block: 'start'
+      behavior: 'smooth'
     })
   })
 }
 
-// Echte AR-knop
+// ✅ AR FIX (BELANGRIJK)
 if (arBtn) {
   arBtn.addEventListener('click', () => {
     if (!currentModelUrl) return
 
-    const arPageUrl = `/ar.html?src=${encodeURIComponent(currentModelUrl)}`
+    const arPageUrl = `/ar-viewer/ar.html?src=${encodeURIComponent(currentModelUrl)}`
     window.open(arPageUrl, '_blank')
   })
 }
 
-// Sidebar met modellen
+// Sidebar lijst
 models.forEach((model) => {
   const card = document.createElement('button')
   card.className = 'model-card'
-  card.type = 'button'
 
   card.innerHTML = `
     <h3>${model.name}</h3>
