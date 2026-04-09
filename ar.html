@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="nl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AR Viewer</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        width: 100%;
+        height: 100%;
+        background: #f4f1eb;
+        font-family: Inter, Arial, sans-serif;
+        color: #1f1f1f;
+      }
+
+      body {
+        display: flex;
+        flex-direction: column;
+      }
+
+      header {
+        padding: 16px 20px;
+        background: rgba(255, 255, 255, 0.88);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+        backdrop-filter: blur(8px);
+      }
+
+      h1 {
+        margin: 0;
+        font-size: 22px;
+      }
+
+      p {
+        margin: 6px 0 0;
+        color: #5d554c;
+        font-size: 14px;
+      }
+
+      .viewer-wrap {
+        flex: 1;
+        min-height: 0;
+      }
+
+      model-viewer {
+        width: 100%;
+        height: 100%;
+        background: #f4f1eb;
+      }
+
+      .back-link {
+        display: inline-block;
+        margin-top: 10px;
+        color: #1f1f1f;
+        text-decoration: none;
+        font-size: 14px;
+      }
+
+      .back-link:hover {
+        text-decoration: underline;
+      }
+    </style>
+
+    <script
+      type="module"
+      src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"
+    ></script>
+  </head>
+  <body>
+    <header>
+      <h1>Bekijk in AR</h1>
+      <p>Open dit op een smartphone en tik op de AR-knop.</p>
+      <a class="back-link" href="/ar-viewer/">← Terug naar viewer</a>
+    </header>
+
+    <div class="viewer-wrap">
+      <model-viewer
+        id="arModel"
+        src=""
+        ar
+        ar-modes="webxr scene-viewer quick-look"
+        camera-controls
+        auto-rotate
+        shadow-intensity="1"
+        tone-mapping="neutral"
+        exposure="1"
+      ></model-viewer>
+    </div>
+
+    <script>
+      const params = new URLSearchParams(window.location.search)
+      const src = params.get('src')
+
+      if (src) {
+        document.getElementById('arModel').src = src
+      }
+    </script>
+  </body>
+</html>
