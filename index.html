@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="nl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>3D AR Viewer</title>
+    <script type="module" crossorigin src="/ar-viewer/assets/index-Bx9roqHi.js"></script>
+    <link rel="stylesheet" crossorigin href="/ar-viewer/assets/index-BT0ZOVF0.css">
+  </head>
+  <body>
+    <div class="page">
+      <header class="hero">
+        <div class="hero-content">
+          <p class="eyebrow">3D • Web • AR</p>
+          <h1>Mijn 3D Modellen</h1>
+          <p class="hero-text">
+            Upload, bewaar en bekijk meerdere fotogrammetrie-modellen in één
+            viewer.
+          </p>
+          <button id="startBtn" class="primary-btn">Start viewer</button>
+        </div>
+      </header>
+
+      <main class="layout">
+        <aside class="sidebar">
+          <h2>Upload nieuw model</h2>
+
+          <form id="uploadForm" class="upload-form">
+            <input
+              id="uploadName"
+              type="text"
+              placeholder="Naam van het model"
+              required
+            />
+
+            <textarea
+              id="uploadDescription"
+              placeholder="Korte beschrijving"
+              rows="3"
+            ></textarea>
+
+            <input
+              id="uploadFile"
+              type="file"
+              accept=".glb,model/gltf-binary"
+              required
+            />
+
+            <button type="submit" class="primary-btn">Upload model</button>
+            <p id="uploadStatus" class="upload-status"></p>
+          </form>
+
+          <hr class="sidebar-divider" />
+
+          <h2>Modellen</h2>
+          <div id="modelList" class="model-list"></div>
+        </aside>
+
+        <section class="viewer-section">
+          <div class="viewer-topbar">
+            <div>
+              <h2 id="modelTitle">Nog geen model geladen</h2>
+              <p id="modelSubtitle">Kies een model uit de lijst</p>
+            </div>
+
+            <div class="topbar-actions">
+              <input
+                id="modelUrlInput"
+                type="text"
+                placeholder="Plak hier je GLB-link"
+              />
+              <button id="loadModelBtn" class="secondary-btn">Laad link</button>
+              <button id="arBtn" class="primary-btn">Bekijk in AR</button>
+            </div>
+          </div>
+
+          <div id="app"></div>
+        </section>
+      </main>
+    </div>
+
+  </body>
+</html>
